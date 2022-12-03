@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="id"
+            type="String" />
+    </data>
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:id="@+id/textCardApptName"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:text="Name"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/textCardApptEmail"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:text="Email"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/textCardApptDate"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:text="Date"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textCardApptDetails"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:text="Vaccine"
+                android:textSize="14sp" />
+        </TableRow>
+    </androidx.cardview.widget.CardView>
+</layout>

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "513023781099",
+    "project_id": "cortenswalkinclinic",
+    "storage_bucket": "cortenswalkinclinic.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:513023781099:android:92941fa80aacd584fd76ae",
+        "android_client_info": {
+          "package_name": "project.stn991503827.daniel.walkinclinicfinalproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "513023781099-i4bkrvc3c13jvv8fp2c0450iv0tdung9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJgIsLtxPQ2oAgQzHBzdKpzHYdIN4yBlE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "513023781099-i4bkrvc3c13jvv8fp2c0450iv0tdung9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

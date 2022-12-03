@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">WalkInClinicFinalProject</string>
+    <string name="title">Cortens Medical</string>
+    <string name="copywrite">\u00A9 2022 Cortens Development Solutions</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
