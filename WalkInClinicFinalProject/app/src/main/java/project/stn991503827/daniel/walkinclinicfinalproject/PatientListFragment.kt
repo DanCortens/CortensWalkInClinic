@@ -5,6 +5,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import project.stn991503827.daniel.walkinclinicfinalproject.data.PatientItem
+import project.stn991503827.daniel.walkinclinicfinalproject.data.PatientItemRecycler
+import project.stn991503827.daniel.walkinclinicfinalproject.databinding.FragmentPatientListBinding
+import project.stn991503827.daniel.walkinclinicfinalproject.viewmodels.PatientViewModel
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -16,10 +25,16 @@ private const val ARG_PARAM2 = "param2"
  * Use the [PatientListFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class PatientListFragment : Fragment() {
+class PatientListFragment : Fragment(), PatientItemRecycler.OnItemClickListener {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+
+    private lateinit var binding : FragmentPatientListBinding;
+    private lateinit var auth : FirebaseAuth
+    private lateinit var user : FirebaseUser
+
+    private lateinit var patientViewModel : PatientViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,8 +48,38 @@ class PatientListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_patient_list, container, false)
+        binding = FragmentPatientListBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onStart() {
+        super.onStart()
+        auth = FirebaseAuth.getInstance()
+        //if no user, go back to main menu
+        if (auth.currentUser == null) {
+            Toast.makeText(activity, "Error: no user detected", Toast.LENGTH_LONG).show()
+            activity?.supportFragmentManager?.popBackStack()
+
+        }
+        else {
+            getViewBindings()
+            user = auth.currentUser!!
+            var patList = mutableListOf<PatientItem>()
+            for (pats in patientViewModel.getPats().values.toList()) {
+                patList.add(PatientItem("${pats.fName} ${pats.lName}","${pats.age}",
+                    pats.email,pats.phone,pats.notes))
+            }
+            binding.rViewPatientList.adapter = PatientItemRecycler(patList, this)
+            binding.rViewPatientList.layoutManager = LinearLayoutManager(this.context)
+            binding.rViewPatientList.setHasFixedSize(true)
+        }
+    }
+
+    private fun getViewBindings() {
+        patientViewModel = ViewModelProvider(requireActivity()).get(PatientViewModel::class.java)
+    }
+    override fun onItemClick(position: Int) {
+        Toast.makeText(activity, "position $position", Toast.LENGTH_LONG).show()
     }
 
     companion object {

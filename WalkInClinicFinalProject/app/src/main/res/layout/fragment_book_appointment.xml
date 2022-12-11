@@ -1,14 +1,182 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     tools:context=".BookAppointmentFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical">
 
-</FrameLayout>
+        <TextView
+            android:id="@+id/textBookTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Book Appointment"
+            android:textSize="28sp" />
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:stretchColumns="1">
+            <TableRow
+                android:id="@+id/bookPatientRow"
+                android:visibility="gone"
+                >
+
+                <TextView
+                    android:id="@+id/textView9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Patient"
+                    android:textSize="22sp" />
+
+                <Spinner
+                    android:id="@+id/bookPatientSpinner"
+                    android:layout_width="240dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="25dp"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/textView10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Type"
+                    android:textSize="22sp" />
+
+                <Spinner
+                    android:id="@+id/bookTypeSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="25dp"/>
+            </TableRow>
+            <TableRow
+                android:id="@+id/bookDoctorRow"
+                android:visibility="gone">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Doctor"
+                    android:textSize="22dp"/>
+                <Spinner
+                    android:id="@+id/bookDocSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="25dp"/>
+            </TableRow>
+            <TableRow
+                android:id="@+id/bookDateRow"
+                android:visibility="gone">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Date"
+                    android:textSize="22dp"/>
+
+                <EditText
+                    android:id="@+id/bookDatePicker"
+                    android:hint="Click to Choose"
+                    android:textSize="26dp"
+                    android:layout_marginLeft="25dp"/>
+            </TableRow>
+            <TableRow
+                android:id="@+id/bookTimeRow"
+                android:visibility="gone">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Time"
+                    android:textSize="22dp"/>
+
+                <EditText
+                    android:id="@+id/bookTimePicker"
+                    android:hint="Click to Choose"
+                    android:textSize="26dp"
+                    android:layout_marginLeft="25dp"/>
+            </TableRow>
+            <TableRow
+                android:id="@+id/bookVaccineRow"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Vaccine"
+                    android:textSize="22dp" />
+
+                <EditText
+                    android:id="@+id/bookVaccineEdit"
+                    android:hint="Requested vaccine"
+                    android:textSize="26dp"
+                    android:layout_marginLeft="25dp"/>
+            </TableRow>
+            <TableRow
+                android:id="@+id/bookAllergiesRow"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Allergies"
+                    android:textSize="22dp" />
+
+                <EditText
+                    android:id="@+id/bookAllergiesEdit"
+                    android:hint="Patient allergies"
+                    android:textSize="26dp"
+                    android:layout_marginLeft="25dp"/>
+            </TableRow>
+            <TableRow
+                android:id="@+id/bookPrescriptionRow"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Prescription"
+                    android:textSize="22dp" />
+
+                <EditText
+                    android:id="@+id/bookPrescriptionEdit"
+                    android:hint="Patient prescription"
+                    android:textSize="26dp"
+                    android:layout_marginLeft="25dp"/>
+            </TableRow>
+            <TableRow
+                android:id="@+id/bookNotesRow"
+                android:visibility="gone">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Notes"
+                    android:textSize="22dp"/>
+
+                <EditText
+                    android:id="@+id/bookNotesEdit"
+                    android:hint="Doctors Notes"
+                    android:textSize="26dp"
+                    android:layout_marginLeft="25dp"/>
+            </TableRow>
+            <TableRow
+                android:id="@+id/bookSubmitRow"
+                android:visibility="gone">
+
+                <Button
+                    android:id="@+id/bookSubmitButt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Book"
+                    android:layout_marginLeft="25dp"
+                    android:textSize="25dp"
+                    android:layout_column="1"/>
+            </TableRow>
+        </TableLayout>
+
+
+    </LinearLayout>
+</layout>

@@ -24,4 +24,31 @@ class DoctorViewModel : ViewModel() {
         val docList : MutableMap<String, Doctor>? = mutableDocData.value
         return docList!!
     }
+    fun getTherapists() : List<Doctor> {
+        val docList : MutableMap<String, Doctor>? = mutableDocData.value
+        var therList = mutableListOf<Doctor>()
+        if (docList != null) {
+            for (doc in docList) {
+                if (doc.value.spec == "Therapist")
+                    therList.add(doc.value)
+            }
+        }
+        return therList
+    }
+    fun getPharmacists() : List<Doctor> {
+        val docList : MutableMap<String, Doctor>? = mutableDocData.value
+        var pharmList = mutableListOf<Doctor>()
+        if (docList != null) {
+            for (doc in docList) {
+                if (doc.value.spec == "Pharmacist")
+                    pharmList.add(doc.value)
+            }
+        }
+        return pharmList
+    }
+
+    fun updateDoc(doctor: Doctor) {
+        val docList : MutableMap<String, Doctor>? = mutableDocData.value
+        docList?.put(doctor.email, doctor)
+    }
 }

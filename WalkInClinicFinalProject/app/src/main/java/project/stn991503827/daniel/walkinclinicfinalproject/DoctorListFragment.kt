@@ -38,7 +38,6 @@ class DoctorListFragment : Fragment(), DocItemRecycler.OnItemClickListener {
     private lateinit var auth : FirebaseAuth
     private lateinit var user : FirebaseUser
 
-    private val db = Firebase.firestore
     private lateinit var docsViewModel : DoctorViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {

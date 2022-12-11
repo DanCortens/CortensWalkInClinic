@@ -6,15 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.viewModels
-import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import project.stn991503827.daniel.walkinclinicfinalproject.data.AppItemRecycler
 import project.stn991503827.daniel.walkinclinicfinalproject.data.ApptItem
 import project.stn991503827.daniel.walkinclinicfinalproject.databinding.FragmentAdminHomeBinding
@@ -37,8 +32,6 @@ class AdminHomeFragment : Fragment(), AppItemRecycler.OnItemClickListener {
     private lateinit var binding : FragmentAdminHomeBinding
     private lateinit var auth : FirebaseAuth
     private lateinit var user : FirebaseUser
-
-    private val db = Firebase.firestore
 
     private lateinit var userViewModel : UserViewModel
     private lateinit var docsViewModel : DoctorViewModel

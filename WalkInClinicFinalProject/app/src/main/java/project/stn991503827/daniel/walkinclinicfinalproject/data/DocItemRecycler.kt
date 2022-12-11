@@ -14,6 +14,7 @@ class DocItemRecycler(
     private lateinit var binding : DoctorItemBinding
     inner class DocItemViewHolder(binding: DoctorItemBinding) : RecyclerView.ViewHolder (binding.root),
     View.OnClickListener {
+        var id : String? = binding.id
         val nameText : TextView = binding.textDoctorItemName
         val specText : TextView = binding.textDoctorItemSpec
         val emailText : TextView = binding.textDoctorItemEmail
@@ -35,6 +36,7 @@ class DocItemRecycler(
     }
     override fun onBindViewHolder(holder:DocItemViewHolder, position: Int) {
         val currDoc = docList[position]
+        holder.id = currDoc.email
         holder.nameText.text = currDoc.name
         holder.specText.text = currDoc.spec
         holder.emailText.text = currDoc.email

@@ -3,7 +3,6 @@ package project.stn991503827.daniel.walkinclinicfinalproject
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
@@ -213,10 +212,22 @@ class MainActivity : AppCompatActivity() {
                 val adminHome = AdminHomeFragment()
                 transaction.replace(R.id.displayFrag, adminHome).commit()
             }
-            1 -> {}
-            2 -> {}
-            3 -> {}
-            4 -> {}
+            1 -> {
+                val adminProfile = AdminProfileFragment()
+                transaction.replace(R.id.displayFrag, adminProfile).commit()
+            }
+            2 -> {
+                val patList = PatientListFragment()
+                transaction.replace(R.id.displayFrag, patList).commit()
+            }
+            3 -> {
+                val docList = DoctorListFragment()
+                transaction.replace(R.id.displayFrag, docList).commit()
+            }
+            4 -> {
+                val appList = AppointmentsFragment()
+                transaction.replace(R.id.displayFrag,appList).commit()
+            }
             else -> {
                 logout()
             }
@@ -228,11 +239,17 @@ class MainActivity : AppCompatActivity() {
         val transaction = manager.beginTransaction()
         when (choice) {
             0 -> {
-                val patietHome = PatientHomeFrag()
-                transaction.replace(R.id.displayFrag, patietHome).commit()
+                val patientHome = PatientHomeFrag()
+                transaction.replace(R.id.displayFrag, patientHome).commit()
             }
-            1 -> {}
-            2 -> {}
+            1 -> {
+                val patientProf = PatientProfileFragment()
+                transaction.replace(R.id.displayFrag, patientProf).commit()
+            }
+            2 -> {
+                val bookAppointment = BookAppointmentFragment()
+                transaction.replace(R.id.displayFrag, bookAppointment).commit()
+            }
             else -> {
                 logout()
             }

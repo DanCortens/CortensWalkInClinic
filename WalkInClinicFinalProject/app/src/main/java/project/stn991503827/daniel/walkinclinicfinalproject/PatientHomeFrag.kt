@@ -14,7 +14,6 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import project.stn991503827.daniel.walkinclinicfinalproject.data.AppItemRecycler
 import project.stn991503827.daniel.walkinclinicfinalproject.data.ApptItem
-import project.stn991503827.daniel.walkinclinicfinalproject.databinding.FragmentAdminHomeBinding
 import project.stn991503827.daniel.walkinclinicfinalproject.databinding.FragmentPatientHomeBinding
 import project.stn991503827.daniel.walkinclinicfinalproject.viewmodels.*
 
@@ -44,6 +43,7 @@ class PatientHomeFrag : Fragment(), AppItemRecycler.OnItemClickListener {
     private lateinit var patsViewModel : PatientViewModel
     private lateinit var vaxApptViewModel : VaxApptViewModel
     private lateinit var therapyApptViewModel : TherapyApptViewModel
+    private lateinit var appointEditViewModel: AppointEditViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,7 +73,7 @@ class PatientHomeFrag : Fragment(), AppItemRecycler.OnItemClickListener {
         else {
             getViewBindings()
             user = auth.currentUser!!
-
+            appointEditViewModel.setEmail(user.email.toString())
             var appts = mutableListOf<ApptItem>()
             for (tAppts in therapyApptViewModel.getTherAppts().values.toList()) {
                 if (tAppts.pEmail == user.email!!)
@@ -97,6 +97,7 @@ class PatientHomeFrag : Fragment(), AppItemRecycler.OnItemClickListener {
         patsViewModel = ViewModelProvider(requireActivity()).get(PatientViewModel::class.java)
         vaxApptViewModel = ViewModelProvider(requireActivity()).get(VaxApptViewModel::class.java)
         therapyApptViewModel = ViewModelProvider(requireActivity()).get(TherapyApptViewModel::class.java)
+        appointEditViewModel = ViewModelProvider(requireActivity()).get(AppointEditViewModel::class.java)
     }
 
     override fun onItemClick(position: Int) {

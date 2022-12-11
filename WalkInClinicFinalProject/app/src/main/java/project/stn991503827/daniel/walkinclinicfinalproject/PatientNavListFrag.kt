@@ -11,7 +11,7 @@ class PatientNavListFrag : ListFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        val navOptions = arrayOf("Home", "Personal", "Appointments", "Logout")
+        val navOptions = arrayOf("Home", "Personal", "Book", "Logout")
         val adapter = ArrayAdapter(requireActivity(), R.layout.support_simple_spinner_dropdown_item, navOptions)
         listAdapter = adapter
     }

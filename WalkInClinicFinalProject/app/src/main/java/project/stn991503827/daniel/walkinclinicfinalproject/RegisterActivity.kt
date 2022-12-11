@@ -46,7 +46,7 @@ class RegisterActivity : AppCompatActivity() {
                 val data = hashMapOf("admin" to false)
                 db.collection("users").document(email).set(data, SetOptions.merge())
                 Toast.makeText(this, "Registration successful", Toast.LENGTH_LONG).show()
-                startHome()
+                startNewUser()
             }
             else {
                 Toast.makeText(this, "Registration failed", Toast.LENGTH_LONG).show()
@@ -54,8 +54,8 @@ class RegisterActivity : AppCompatActivity() {
 
         }
     }
-    private fun startHome() {
-        val intent = Intent(this, MainActivity::class.java)
+    private fun startNewUser() {
+        val intent = Intent(this, NewPatientActivity::class.java)
         startActivity(intent)
         finish()
     }

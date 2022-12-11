@@ -12,7 +12,7 @@ class PatientViewModel : ViewModel() {
     }
     fun addPat(patient: Patient) {
         val patList = mutableDocData.value
-        patList?.set(patient.email, patient)
+        patList?.put(patient.email, patient)
         setPats(patList!!)
     }
     fun getPat(email : String) : Patient {
@@ -23,6 +23,10 @@ class PatientViewModel : ViewModel() {
     fun getPats() : Map<String, Patient> {
         val patList = mutableDocData.value
         return patList!!
+    }
+    fun updatePat(patient: Patient) {
+        val patList = mutableDocData.value
+        patList?.put(patient.email, patient)
     }
 
 }
