@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".BookAppointmentFragment">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/textEditTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Edit Appointment"
+            android:textSize="28sp" />
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:stretchColumns="1">
+            <TableRow>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Patient"
+                    android:textSize="22sp" />
+                <TextView
+                    android:id="@+id/textEAPatName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Scooby Doo"
+                    android:textSize="22sp"
+                    android:layout_marginLeft="25dp"/>
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Type"
+                    android:textSize="22sp" />
+                <TextView
+                    android:id="@+id/textEAAppType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Therapy"
+                    android:textSize="22sp"
+                    android:layout_marginLeft="25dp"/>
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Doctor"
+                    android:textSize="22dp"/>
+                <Spinner
+                    android:id="@+id/editDocSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="25dp"/>
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Date"
+                    android:textSize="22dp"/>
+
+                <EditText
+                    android:id="@+id/editDatePicker"
+                    android:hint="Click to Choose"
+                    android:textSize="26dp"
+                    android:layout_marginLeft="25dp"/>
+            </TableRow>
+            <TableRow>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Time"
+                    android:textSize="22dp"/>
+
+                <EditText
+                    android:id="@+id/editTimePicker"
+                    android:hint="Click to Choose"
+                    android:textSize="26dp"
+                    android:layout_marginLeft="25dp"/>
+            </TableRow>
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/editDetails1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Deet 1"
+                    android:textSize="22dp" />
+
+                <EditText
+                    android:id="@+id/editDetails1Edit"
+                    android:textSize="26dp"
+                    android:layout_marginLeft="25dp"/>
+            </TableRow>
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/editDetails2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Deet 2"
+                    android:textSize="22dp" />
+
+                <EditText
+                    android:id="@+id/editDetails2Edit"
+                    android:textSize="26dp"
+                    android:layout_marginLeft="25dp"/>
+            </TableRow>
+
+            <TableRow>
+                <Button
+                    android:id="@+id/editSubmitButt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Update"
+                    android:layout_marginLeft="25dp"
+                    android:textSize="25dp"
+                    android:layout_column="1"/>
+            </TableRow>
+            <TableRow>
+                <Button
+                    android:id="@+id/editDeleteButt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="DELETE"
+                    android:layout_marginLeft="25dp"
+                    android:textSize="25dp"
+                    android:layout_column="1"/>
+            </TableRow>
+        </TableLayout>
+    </LinearLayout>
+
+
+</layout>

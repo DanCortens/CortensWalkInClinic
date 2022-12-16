@@ -13,6 +13,7 @@ import com.google.firebase.auth.FirebaseUser
 import project.stn991503827.daniel.walkinclinicfinalproject.data.PatientItem
 import project.stn991503827.daniel.walkinclinicfinalproject.data.PatientItemRecycler
 import project.stn991503827.daniel.walkinclinicfinalproject.databinding.FragmentPatientListBinding
+import project.stn991503827.daniel.walkinclinicfinalproject.viewmodels.PatientEditViewModel
 import project.stn991503827.daniel.walkinclinicfinalproject.viewmodels.PatientViewModel
 
 // TODO: Rename parameter arguments, choose names that match
@@ -33,8 +34,10 @@ class PatientListFragment : Fragment(), PatientItemRecycler.OnItemClickListener 
     private lateinit var binding : FragmentPatientListBinding;
     private lateinit var auth : FirebaseAuth
     private lateinit var user : FirebaseUser
+    private var patList = mutableListOf<PatientItem>()
 
     private lateinit var patientViewModel : PatientViewModel
+    private lateinit var patientEditViewModel: PatientEditViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,7 +67,8 @@ class PatientListFragment : Fragment(), PatientItemRecycler.OnItemClickListener 
         else {
             getViewBindings()
             user = auth.currentUser!!
-            var patList = mutableListOf<PatientItem>()
+
+            patList.clear()
             for (pats in patientViewModel.getPats().values.toList()) {
                 patList.add(PatientItem("${pats.fName} ${pats.lName}","${pats.age}",
                     pats.email,pats.phone,pats.notes))
@@ -77,9 +81,16 @@ class PatientListFragment : Fragment(), PatientItemRecycler.OnItemClickListener 
 
     private fun getViewBindings() {
         patientViewModel = ViewModelProvider(requireActivity()).get(PatientViewModel::class.java)
+        patientEditViewModel = ViewModelProvider(requireActivity()).get(PatientEditViewModel::class.java)
     }
     override fun onItemClick(position: Int) {
-        Toast.makeText(activity, "position $position", Toast.LENGTH_LONG).show()
+        patientEditViewModel.setPatient(
+            patientViewModel.getPat(patList[position].email)
+        )
+        val patientProfileFragment = PatientProfileFragment()
+        val transaction = activity?.supportFragmentManager?.beginTransaction()
+        transaction?.remove(this)
+        transaction?.add(R.id.displayFrag,patientProfileFragment)?.commit()
     }
 
     companion object {

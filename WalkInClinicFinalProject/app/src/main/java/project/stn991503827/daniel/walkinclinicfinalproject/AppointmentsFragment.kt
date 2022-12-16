@@ -8,12 +8,16 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.get
+import androidx.core.view.size
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import org.w3c.dom.Text
 import project.stn991503827.daniel.walkinclinicfinalproject.data.DetailedAppItem
 import project.stn991503827.daniel.walkinclinicfinalproject.data.DetailedAppRecycler
+import project.stn991503827.daniel.walkinclinicfinalproject.data.TherapyAppointment
+import project.stn991503827.daniel.walkinclinicfinalproject.data.VaxAppointment
 import project.stn991503827.daniel.walkinclinicfinalproject.databinding.DetailedAppointmentItemBinding
 import project.stn991503827.daniel.walkinclinicfinalproject.databinding.FragmentAppointmentsBinding
 import project.stn991503827.daniel.walkinclinicfinalproject.viewmodels.AppointEditViewModel
@@ -42,7 +46,7 @@ class AppointmentsFragment : Fragment(), DetailedAppRecycler.OnItemClickListener
     private lateinit var vaxApptViewModel : VaxApptViewModel
     private lateinit var therapyApptViewModel : TherapyApptViewModel
     private lateinit var appointEditViewModel: AppointEditViewModel
-
+    private var allAppointments = mutableListOf<DetailedAppItem>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -59,8 +63,8 @@ class AppointmentsFragment : Fragment(), DetailedAppRecycler.OnItemClickListener
         return binding.root
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onResume() {
+        super.onResume()
         auth = FirebaseAuth.getInstance()
 
         //if no user, go back to main menu
@@ -70,20 +74,15 @@ class AppointmentsFragment : Fragment(), DetailedAppRecycler.OnItemClickListener
 
         }
         else {
-            getViewBindings()
+
             user = auth.currentUser!!
-            var allAppointments = mutableListOf<DetailedAppItem>()
-            for (vApps in vaxApptViewModel.getVaxAppts().values.toList()) {
-                allAppointments.add(DetailedAppItem(vApps.vaId,vApps.pName,vApps.pEmail,vApps.dName,
-                    vApps.dEmail,vApps.date.toString(),vApps.vaccine,vApps.allergies))
-            }
-            for (tApps in therapyApptViewModel.getTherAppts().values.toList()) {
-                allAppointments.add(DetailedAppItem(tApps.taId,tApps.pName,tApps.pEmail,tApps.dName,
-                    tApps.dEmail,tApps.date.toString(),tApps.prescription,tApps.notes))
-            }
+            setApptList()
             binding.rViewApptList.adapter = DetailedAppRecycler(allAppointments, this)
+
             binding.rViewApptList.layoutManager = LinearLayoutManager(this.context)
             binding.rViewApptList.setHasFixedSize(true)
+
+            binding.buttBookByDoc.setOnClickListener { bookAppoint() }
         }
     }
     private fun getViewBindings() {
@@ -92,17 +91,50 @@ class AppointmentsFragment : Fragment(), DetailedAppRecycler.OnItemClickListener
         appointEditViewModel = ViewModelProvider(requireActivity()).get(AppointEditViewModel::class.java)
     }
     override fun onItemClick(position: Int) {
+        var type = 0
+        val tAppt : TherapyAppointment? =
+            therapyApptViewModel.getTherAppt(allAppointments[position].id)
+        if (tAppt == null)
+            type = 1
+        apptSelected(type, allAppointments[position].id)
+    }
+    private fun apptSelected(type: Int, id : String) {
         //open specific appointment
+        val appt : DetailedAppItem
+        if (type == 0) {
+            val tAppt : TherapyAppointment = therapyApptViewModel.getTherAppt(id)!!
+            appt = DetailedAppItem(tAppt.taId,tAppt.pName,tAppt.pEmail,tAppt.dName,tAppt.dEmail,tAppt.date.toString(),tAppt.prescription,
+                tAppt.notes)
+        }
+        else {
+            val vAppt : VaxAppointment = vaxApptViewModel.getVaxAppt(id)
+            appt = DetailedAppItem(vAppt.vaId,vAppt.pName,vAppt.pEmail,vAppt.dName,vAppt.dEmail,vAppt.date.toString(),vAppt.vaccine,
+            vAppt.allergies)
+        }
+        appointEditViewModel.setAppt(appt,type)
+        val editAppointmentFragment = EditAppointmentFragment()
+        val transaction = activity?.supportFragmentManager?.beginTransaction()
+        transaction?.remove(this)
+        transaction?.add(R.id.displayFrag,editAppointmentFragment)?.commit()
 
-        val card = binding.rViewApptList.get(position)
-        appointEditViewModel.setEmail(
-            card.findViewById<TextView>(R.id.textAppListPatientEmail).text.toString()
-        )
+    }
+    private fun bookAppoint() {
+        val bookAppointmentFragment = BookAppointmentFragment()
+        val transaction = activity?.supportFragmentManager?.beginTransaction()
+        transaction?.replace(R.id.displayFrag,bookAppointmentFragment)?.commit()
 
-        appointEditViewModel.setAppt(
-            card.findViewById<TextView>(R.id.detAppId).text.toString()
-        )
-        Toast.makeText(activity,"${appointEditViewModel.getApptID()}",Toast.LENGTH_SHORT).show()
+    }
+    fun setApptList() {
+        getViewBindings()
+        allAppointments.clear()
+        for (vApps in vaxApptViewModel.getVaxAppts().values.toList()) {
+            allAppointments.add(DetailedAppItem(vApps.vaId,vApps.pName,vApps.pEmail,vApps.dName,
+                vApps.dEmail,vApps.date.toString(),vApps.vaccine,vApps.allergies))
+        }
+        for (tApps in therapyApptViewModel.getTherAppts().values.toList()) {
+            allAppointments.add(DetailedAppItem(tApps.taId,tApps.pName,tApps.pEmail,tApps.dName,
+                tApps.dEmail,tApps.date.toString(),tApps.prescription,tApps.notes))
+        }
     }
     companion object {
         /**
@@ -123,4 +155,6 @@ class AppointmentsFragment : Fragment(), DetailedAppRecycler.OnItemClickListener
                 }
             }
     }
+
+
 }

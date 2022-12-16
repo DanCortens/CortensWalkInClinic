@@ -14,6 +14,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import project.stn991503827.daniel.walkinclinicfinalproject.data.Patient
 import project.stn991503827.daniel.walkinclinicfinalproject.databinding.FragmentPatientProfileBinding
+import project.stn991503827.daniel.walkinclinicfinalproject.viewmodels.PatientEditViewModel
 import project.stn991503827.daniel.walkinclinicfinalproject.viewmodels.PatientViewModel
 import project.stn991503827.daniel.walkinclinicfinalproject.viewmodels.UserViewModel
 
@@ -38,6 +39,7 @@ class PatientProfileFragment : Fragment() {
 
     private val db = Firebase.firestore
     private lateinit var patientViewModel : PatientViewModel
+    private lateinit var patientEditViewModel: PatientEditViewModel
     private lateinit var userViewModel: UserViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,11 +71,13 @@ class PatientProfileFragment : Fragment() {
             getViewBindings()
             user = auth.currentUser!!
             val currUser = userViewModel.getUser()
-            patEmail = currUser.email
+
             if (currUser.admin) {
+                patEmail = patientEditViewModel.getPatient().email
                 binding.editPatProfPhone.inputType = TYPE_NULL
             }
             else {
+                patEmail = currUser.email
                 binding.editPatProfNotes.visibility = View.INVISIBLE
             }
             val patient = patientViewModel.getPat(patEmail)
@@ -91,6 +95,7 @@ class PatientProfileFragment : Fragment() {
     private fun getViewBindings() {
         userViewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
         patientViewModel = ViewModelProvider(requireActivity()).get(PatientViewModel::class.java)
+        patientEditViewModel = ViewModelProvider(requireActivity()).get(PatientEditViewModel::class.java)
     }
 
     private fun updatePatientProfile() {
@@ -121,12 +126,15 @@ class PatientProfileFragment : Fragment() {
                     "phone" to newPatient.phone,
                     "notes" to newPatient.notes
                 )).addOnCompleteListener {
-                    if (it.isSuccessful)
+                    if (it.isSuccessful) {
+                        patientViewModel.updatePat(newPatient)
                         Toast.makeText(activity, "Update successful!", Toast.LENGTH_LONG).show()
+                        activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.commit()
+                    }
                     else
                         Toast.makeText(activity, "Update failed!", Toast.LENGTH_LONG).show()
                 }
-            patientViewModel.updatePat(newPatient)
+
         }
     }
     companion object {

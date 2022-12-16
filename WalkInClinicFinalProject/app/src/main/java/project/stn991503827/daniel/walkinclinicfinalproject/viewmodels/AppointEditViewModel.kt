@@ -1,16 +1,15 @@
 package project.stn991503827.daniel.walkinclinicfinalproject.viewmodels
 
 import androidx.lifecycle.ViewModel
+import project.stn991503827.daniel.walkinclinicfinalproject.data.DetailedAppItem
 
 class AppointEditViewModel : ViewModel() {
-    private lateinit var email : String
-    private lateinit var apptId : String
-    fun setEmail(e : String) {
-        email = e
+    private lateinit var appoint : DetailedAppItem
+    private var type = 0
+    fun setAppt(a : DetailedAppItem, t : Int) {
+        appoint = a
+        type = t
     }
-    fun setAppt(a : String) {
-        apptId = a
-    }
-    fun getEmail() = email
-    fun getApptID() = apptId
+    fun getAppt() = appoint
+    fun getType() = type
 }

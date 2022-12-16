@@ -67,8 +67,8 @@ class BookAppointmentFragment : Fragment() {
         return binding.root
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onResume() {
+        super.onResume()
         auth = FirebaseAuth.getInstance()
 
         //if no user, go back to main menu
@@ -92,7 +92,7 @@ class BookAppointmentFragment : Fragment() {
                     android.R.layout.simple_spinner_dropdown_item)
                 binding.bookPatientSpinner.adapter = patientAdapter
             }
-            val apptTypes = arrayOf<String>("Therapy", "Vaccine")
+            val apptTypes = arrayOf<String>("Therapy", "Vaccination")
             val typesAdapter : ArrayAdapter<String> = ArrayAdapter(
                 this.requireContext(),android.R.layout.simple_spinner_item,apptTypes)
             typesAdapter.setDropDownViewResource(
@@ -113,6 +113,7 @@ class BookAppointmentFragment : Fragment() {
 
     private fun apptTypeSelected(position : Int) {
         binding.bookDoctorRow.visibility = View.VISIBLE
+
         val docNames = mutableListOf<String>()
         if (position == 0) {
             for (docs in docsViewModel.getTherapists())
@@ -210,8 +211,9 @@ class BookAppointmentFragment : Fragment() {
             )
         ).addOnCompleteListener {
             if (it.isSuccessful) {
+                therapyApptViewModel.addTherAppt(therapyAppointment)
                 Toast.makeText(activity, "Update successful!", Toast.LENGTH_LONG).show()
-                activity?.supportFragmentManager?.popBackStack()
+                activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.commit()
             }
             else
                 Toast.makeText(activity, "Update failed!", Toast.LENGTH_LONG).show()
@@ -227,7 +229,7 @@ class BookAppointmentFragment : Fragment() {
         val doc = docsViewModel.getPharmacists()[binding.bookDocSpinner.selectedItemPosition]
         val vaxAppt = VaxAppointment("temp","${patient.fName} ${patient.lName}",patient.email,
             "Dr. ${doc.fName} ${doc.lName}",doc.email,date!!,
-            binding.bookVaccineEdit.text.toString(),binding.bookAllergiesEdit.text.toString())
+            binding.bookAllergiesEdit.text.toString(), binding.bookVaccineEdit.text.toString())
         db.collection("vax_appointments").add(
             mapOf(
                 "pName" to vaxAppt.pName,
@@ -235,13 +237,14 @@ class BookAppointmentFragment : Fragment() {
                 "dName" to vaxAppt.dName,
                 "doctor" to vaxAppt.dEmail,
                 "date" to vaxAppt.date,
-                "vaccince" to vaxAppt.vaccine,
+                "vaccine" to vaxAppt.vaccine,
                 "allergies" to vaxAppt.allergies
             )
         ).addOnCompleteListener {
             if (it.isSuccessful) {
+                vaxApptViewModel.addVaxAppt(vaxAppt)
                 Toast.makeText(activity, "Update successful!", Toast.LENGTH_LONG).show()
-                activity?.supportFragmentManager?.popBackStack()
+                activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.commit()
             }
             else
                 Toast.makeText(activity, "Update failed!", Toast.LENGTH_LONG).show()

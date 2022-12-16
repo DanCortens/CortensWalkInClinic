@@ -23,4 +23,8 @@ class VaxApptViewModel : ViewModel(){
         val vaxAppts = mutableVaxData.value
         return vaxAppts!!
     }
+    fun deleteVaxAppt(vaId : String) {
+        val vaxAppts = mutableVaxData.value
+        vaxAppts!!.remove(vaId)
+    }
 }

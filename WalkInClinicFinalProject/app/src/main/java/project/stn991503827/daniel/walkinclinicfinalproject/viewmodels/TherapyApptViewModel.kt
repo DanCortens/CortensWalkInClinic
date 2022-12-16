@@ -15,13 +15,17 @@ class TherapyApptViewModel : ViewModel(){
         therAppts?.put(therapyAppointment.taId, therapyAppointment)
         setTherAppt(therAppts!!)
     }
-    fun getTherAppt(taId : String) : TherapyAppointment{
+    fun getTherAppt(taId : String) : TherapyAppointment?{
         val therAppts = mutableTherpData.value
         val therAppt = therAppts?.get(taId)
-        return therAppt!!
+        return therAppt
     }
     fun getTherAppts() : MutableMap<String, TherapyAppointment> {
         val therAppts = mutableTherpData.value
         return therAppts!!
+    }
+    fun deleteTherAppt(taId: String) {
+        val therAppts = mutableTherpData.value
+        therAppts!!.remove(taId)
     }
 }

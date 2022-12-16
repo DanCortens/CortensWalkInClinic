@@ -73,7 +73,6 @@ class PatientHomeFrag : Fragment(), AppItemRecycler.OnItemClickListener {
         else {
             getViewBindings()
             user = auth.currentUser!!
-            appointEditViewModel.setEmail(user.email.toString())
             var appts = mutableListOf<ApptItem>()
             for (tAppts in therapyApptViewModel.getTherAppts().values.toList()) {
                 if (tAppts.pEmail == user.email!!)
@@ -101,8 +100,7 @@ class PatientHomeFrag : Fragment(), AppItemRecycler.OnItemClickListener {
     }
 
     override fun onItemClick(position: Int) {
-        //open specific appointment
-        Toast.makeText(activity, "position $position", Toast.LENGTH_LONG).show()
+        //do nothing
     }
 
     companion object {

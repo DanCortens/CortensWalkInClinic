@@ -90,8 +90,7 @@ class AdminHomeFragment : Fragment(), AppItemRecycler.OnItemClickListener {
     }
 
     override fun onItemClick(position: Int) {
-        //open specific appointment
-        Toast.makeText(activity, "position $position", Toast.LENGTH_LONG).show()
+        //do nothing
     }
 
     private fun initAsTherapist() {

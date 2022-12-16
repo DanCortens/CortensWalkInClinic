@@ -3,6 +3,10 @@ package project.stn991503827.daniel.walkinclinicfinalproject
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Gravity
+import android.view.Menu
+import android.view.MenuItem
+import android.view.Window
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
@@ -20,7 +24,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var auth : FirebaseAuth
-    private lateinit var user : FirebaseUser
+    private var user : FirebaseUser? = null
 
     private val db = Firebase.firestore
 
@@ -35,6 +39,7 @@ class MainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         auth = FirebaseAuth.getInstance()
+        user = auth.currentUser
         setUpDB()
         //if no user, go back to main menu
         if (auth.currentUser == null) {
@@ -44,23 +49,22 @@ class MainActivity : AppCompatActivity() {
         }
         //set up page
         else {
-            user = auth.currentUser!!
             var userData : User
             //search db for user email
-            val doc = db.collection("users").document(user.email.toString())
+            val doc = db.collection("users").document(user?.email.toString())
             doc.get()
                 .addOnCompleteListener() { result ->
                     if (result.isSuccessful) {
                         if (result != null) {
                             //found, set userData
-                            userData = User(user.email.toString(),
+                            userData = User(user?.email.toString(),
                                 result.result.data?.getValue("admin") as Boolean
                             )
                         }
                         else {
                             //not found, create new userData
                             Toast.makeText(this, "New user, creating", Toast.LENGTH_SHORT).show()
-                            userData = User(user.email.toString(), false)
+                            userData = User(user?.email.toString(), false)
                             val data = hashMapOf("admin" to false)
                             db.collection("users").document(userData.email).set(data, SetOptions.merge())
                         }
@@ -69,18 +73,15 @@ class MainActivity : AppCompatActivity() {
                         val manager = supportFragmentManager
                         val transaction = manager.beginTransaction()
                         if (userData.admin) {
-                            val adminNav = AdminNavListFrag()
-                            transaction.add(R.id.navFrag, adminNav)
+                            createAdminNav()
                             val adminHome = AdminHomeFragment()
                             transaction.replace(R.id.displayFrag, adminHome).commit()
                         }
 
                         else {
-                            val patNav = PatientNavListFrag()
-                            transaction.add(R.id.navFrag, patNav)
+                            createPatientNav()
                             val patHome = PatientHomeFrag()
                             transaction.replace(R.id.displayFrag, patHome).commit()
-                            //transaction.replace(R.id.displayFrag, userHomeFragment).commit()
                         }
 
                     }
@@ -88,6 +89,35 @@ class MainActivity : AppCompatActivity() {
                         Toast.makeText(this, "Error: could not connect to DB", Toast.LENGTH_SHORT).show()
                     }
                 }
+        }
+    }
+
+    private fun createAdminNav() {
+        binding.topAppBar.setOnClickListener {
+            binding.drawer.open()
+        }
+        val navOptions = arrayOf("Home", "Personal", "Patients", "Doctors", "Appointments","Help","About","Logout")
+        for (i in 0 until navOptions.count()) {
+            binding.navView.menu.add(Menu.NONE,i,i,navOptions[i])
+        }
+        binding.navView.setNavigationItemSelectedListener {
+            setAdminDisplayFrag(it.itemId)
+            binding.drawer.close()
+            true
+        }
+    }
+    private fun createPatientNav() {
+        binding.topAppBar.setOnClickListener {
+            binding.drawer.open()
+        }
+        val navOptions = arrayOf("Home", "Personal", "Book","Help","About","Logout")
+        for (i in 0 until navOptions.count()) {
+            binding.navView.menu.add(Menu.NONE,i,i,navOptions[i])
+        }
+        binding.navView.setNavigationItemSelectedListener {
+            setPatientDisplayFrag(it.itemId)
+            binding.drawer.close()
+            true
         }
     }
     private fun setUpDB() {
@@ -204,10 +234,10 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
         finish()
     }
-    fun setAdminDisplayFrag(choice : Int) {
+    private fun setAdminDisplayFrag(item : Int) {
         val manager = supportFragmentManager
         val transaction = manager.beginTransaction()
-        when (choice) {
+        when (item) {
             0 -> {
                 val adminHome = AdminHomeFragment()
                 transaction.replace(R.id.displayFrag, adminHome).commit()
@@ -228,16 +258,24 @@ class MainActivity : AppCompatActivity() {
                 val appList = AppointmentsFragment()
                 transaction.replace(R.id.displayFrag,appList).commit()
             }
+            5 -> {
+                val helpFragment = HelpFragment()
+                transaction.replace(R.id.displayFrag,helpFragment).commit()
+            }
+            6 -> {
+                val about = AboutFragment()
+                transaction.replace(R.id.displayFrag, about).commit()
+            }
             else -> {
                 logout()
             }
         }
     }
 
-    fun setPatientDisplayFrag (choice : Int) {
+    private fun setPatientDisplayFrag (item : Int) {
         val manager = supportFragmentManager
         val transaction = manager.beginTransaction()
-        when (choice) {
+        when (item) {
             0 -> {
                 val patientHome = PatientHomeFrag()
                 transaction.replace(R.id.displayFrag, patientHome).commit()
@@ -249,6 +287,14 @@ class MainActivity : AppCompatActivity() {
             2 -> {
                 val bookAppointment = BookAppointmentFragment()
                 transaction.replace(R.id.displayFrag, bookAppointment).commit()
+            }
+            3 -> {
+                val helpFragment = HelpFragment()
+                transaction.replace(R.id.displayFrag,helpFragment).commit()
+            }
+            4 -> {
+                val about = AboutFragment()
+                transaction.replace(R.id.displayFrag, about).commit()
             }
             else -> {
                 logout()
